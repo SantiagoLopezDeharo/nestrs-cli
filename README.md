@@ -1,11 +1,11 @@
 # Base Rust Web API
 
-A lightweight, single-thread async Rust web API with a NestJS-like folder structure and a simple routing system. Controllers declare their own routes, and the router registers them at startup.
+A lightweight, multi-thread async Rust web API with a NestJS-like folder structure and a simple routing system. Controllers declare their own routes, and the router registers them at startup.
 
 ## Features
 
-- Single-thread async runtime (Tokio current-thread)
-- Strongly inspired on NestJS proven development patterns 
+- Multi-thread async runtime (Tokio runtime on each execution thread)
+- Strongly inspired on NestJS proven development patterns
 - Request/Response primitives with automatic status lines
 - Controller-first route declarations (NestJS-like)
 - Domain-driven structure: controller, service, repo, DTO
