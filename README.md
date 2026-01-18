@@ -45,7 +45,7 @@ You can override the default port and number of worker threads by creating a `.e
 ```
 # .env
 PORT=80   # Server port (default: 8080)
-CORES=4     # Number of worker threads (default: all available cores)
+CORES=4   # Number of worker threads (default: all available cores)
 ```
 
 These values will be loaded automatically at startup.
