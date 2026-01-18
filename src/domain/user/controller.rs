@@ -46,13 +46,15 @@ impl UserController {
             .get("skip")
             .and_then(|v| v.parse().ok());
 
+        let query = _request.query_params.get("query");
+
         let service = UserService::new(UserRepo::new());
 
         let mut headers = HashMap::new();
 
         headers.insert("Content-Type".to_string(), "application/json".to_string());
 
-        match service.get_all_paginated(top, skip).await {
+        match service.get_all_paginated(top, skip, query).await {
             Ok(body) => Response {
                 status_code: 200,
                 headers,

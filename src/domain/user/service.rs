@@ -9,15 +9,17 @@ pub struct UserService {
 }
 
 impl UserService {
+    pub fn new(repo: UserRepo) -> Self {
+        Self { repo }
+    }
+
     pub async fn get_all_paginated(
         &self,
         top: Option<i64>,
         skip: Option<i64>,
+        query: Option<&String>,
     ) -> Result<String, sqlx::Error> {
-        self.repo.get_all_paginated(top, skip).await
-    }
-    pub fn new(repo: UserRepo) -> Self {
-        Self { repo }
+        self.repo.get_all_paginated(top, skip, query).await
     }
 
     pub async fn create_user(&self, mut user: UserDto) -> Result<(), sqlx::Error> {

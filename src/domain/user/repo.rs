@@ -16,14 +16,23 @@ impl UserRepo {
         &self,
         top: Option<i64>,
         skip: Option<i64>,
+        query: Option<&String>,
     ) -> Result<String, sqlx::Error> {
+        let mut where_clause = None;
+        let mut where_params = vec![];
+
+        if let Some(q) = query {
+            where_clause = Some("username ILIKE $1");
+            where_params.push(DbParam::Text(format!("%{}%", q)));
+        }
+
         // Use a CTE to fetch paginated data and total count in one query
         let pagination = build_paginated_json_query(
             "USER",
             "id, username",
             "'id', id, 'username', username",
-            None,
-            vec![],
+            where_clause,
+            where_params,
             top,
             skip,
         );
@@ -34,6 +43,7 @@ impl UserRepo {
             let users_json = row
                 .try_get::<Value, _>("data_json")
                 .unwrap_or(Value::Array(vec![]));
+
             let total_count = row.try_get::<i64, _>("total").unwrap_or(0);
             (users_json, total_count)
         } else {
